@@ -3,7 +3,7 @@ import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
 
-import { myLoggerWarn } from "./src/middlewares/logger.js"
+import { myLoggerInfo, myLoggerWarn } from "./src/middlewares/logger.js"
 import log4js from "./src/utils/logs.js"
 
 import minimist from "minimist"
@@ -51,9 +51,10 @@ app.use(passport.session())
 app.use('/ecommerce', routes)
 app.use('/api', randomRoutes)
 
-const logError = log4js.getLogger('errorFile');
+const logError = log4js.getLogger('fileError');
 
 app.use(myLoggerWarn);
+app.use(myLoggerInfo);
 
 mongoose.connect(process.env.MONGODB)
 
