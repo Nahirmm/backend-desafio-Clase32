@@ -2,7 +2,9 @@ import express from "express"
 import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
-//import { PORT } from "./src/utils/minimist.js"
+
+import log4js from "./src/utils/log4js.js"
+
 import minimist from "minimist"
 
 const args = minimist(process.argv.slice(2))
