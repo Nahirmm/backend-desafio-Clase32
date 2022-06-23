@@ -3,12 +3,17 @@ import { Router } from 'express'
 import { isAuth } from '../middlewares/isAuth.js'
 import { info } from '../utils/info.js'
 
+import { myLoggerWarn } from "../middlewares/logger.js";
+
 const routes = Router()
 
+
 //INDEX
-routes.get('/', isAuth, (req, res) => res.render('products', {
-    user: req.user
-}))
+routes.get('/', isAuth, (req, res) => {
+    res.render('products', {
+        user: req.user
+    })
+})
 
 //LOGIN
 routes.get('/login', (req, res) => {
@@ -47,6 +52,8 @@ routes.get('/info', (req, res) => {
     res.render('info', {info: info()})
 })
 
+//
+routes.get('*', myLoggerWarn)
 
 
 export default routes

@@ -3,7 +3,8 @@ import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
 
-import log4js from "./src/utils/log4js.js"
+import { myLoggerWarn } from "./src/middlewares/logger.js"
+import log4js from "./src/utils/logs.js"
 
 import minimist from "minimist"
 
@@ -50,6 +51,10 @@ app.use(passport.session())
 app.use('/ecommerce', routes)
 app.use('/api', randomRoutes)
 
+const logError = log4js.getLogger('errorFile');
+
+app.use(myLoggerWarn);
+
 mongoose.connect(process.env.MONGODB)
 
 const modoServer = args.modo || 'Fork'
@@ -71,7 +76,10 @@ if (modoServer == 'CLUSTER') {
         console.log(`Worker ${process.pid} started`)
     }
 } else {
-    app.listen(PORT, () => console.log(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`))
+    app.listen(PORT, (err) => {
+        if (err) logError.error("There is a Problem!");
+        console.log(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`)
+    })     
 }
 
 
