@@ -13,6 +13,9 @@ const PORT = args.puerto || 8080
 
 const app = express()
 
+const compression = require('compression')
+app.use(compression())
+
 import cluster from 'cluster'
 import os from 'os'
 
