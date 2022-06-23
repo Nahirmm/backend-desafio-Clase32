@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Iniciar sesión</h1>
+        <div class="row">
+            <div class="col-sm-8 col-lg-4 col-md-6">
+                <form class="form" action="/ecommerce/login" method="post" role="form" autocomplete="off">
+                        <legend>Ingrese sus datos:</legend>
+                        <div class="form-group mt-4">
+                            <input id="username" name='username' placeholder="Nombre de usuario" class="form-control" type="text" required autofocus>
+                        </div>
+                        <div class="form-group mt-2">
+                            <input id="password" name='password' placeholder="Contraseña" class="form-control" type="password" required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <div class="d-grid gap-2">
+                                <input class="btn btn-danger" type="submit" value="Iniciar sesión">
+                                <a class="btn btn-outline-danger" href="/ecommerce/signup">Crear nuevo usuario</a>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
