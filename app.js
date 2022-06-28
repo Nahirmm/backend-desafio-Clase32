@@ -3,9 +3,6 @@ import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
 
-import { myLoggerInfo, myLoggerWarn } from "./src/middlewares/logger.js"
-import log4js from "./src/utils/logs.js"
-
 import minimist from "minimist"
 
 const args = minimist(process.argv.slice(2))
@@ -13,7 +10,9 @@ const PORT = args.puerto || 8080
 
 const app = express()
 
-const compression = require('compression')
+import { loggerInfo, loggerError, loggerWarn } from './src/utils/log4js.js'
+
+import compression from "compression"
 app.use(compression())
 
 import cluster from 'cluster'
@@ -54,10 +53,6 @@ app.use(passport.session())
 app.use('/ecommerce', routes)
 app.use('/api', randomRoutes)
 
-const logError = log4js.getLogger('fileError');
-
-app.use(myLoggerWarn);
-app.use(myLoggerInfo);
 
 mongoose.connect(process.env.MONGODB)
 
@@ -65,25 +60,26 @@ const modoServer = args.modo || 'Fork'
 
 if (modoServer == 'CLUSTER') {
     if (cluster.isPrimary) {
-
-        console.log(`Master ${process.pid} id running`)
+        loggerInfo.info(`Master ${process.pid} id running`)
     
         for (let i = 0; i < numCPUs; i++) {
             cluster.fork()  
         }
         cluster.on('exit', (worker, code, signal) => {
-            console.log(`worker ${worker.process.pid} died`)
+            loggerInfo.info(`worker ${worker.process.pid} died`)
         })
     } else {
-        app.listen(PORT, () => console.log(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`))
-    
-        console.log(`Worker ${process.pid} started`)
+        app
+        .listen(PORT, () => loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`))
+        .on('error', err => loggerError.error(err))
+        loggerInfo.info(`Worker ${process.pid} started`)
     }
 } else {
-    app.listen(PORT, (err) => {
-        if (err) logError.error("There is a Problem!");
-        console.log(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`)
-    })     
+    app
+    .listen(PORT, () => {
+        loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`)
+    })  
+    .on('error', err => loggerError.error(err))
 }
 
 
