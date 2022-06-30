@@ -2,12 +2,11 @@ import express from "express"
 import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
-import { Router } from 'express'
 
 import minimist from "minimist"
 
 const args = minimist(process.argv.slice(2))
-const PORT = args.puerto || 8080 
+const PORT = 8080 
 
 const app = express()
 
