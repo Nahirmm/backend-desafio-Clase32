@@ -12,7 +12,7 @@ const app = express()
 
 import { loggerInfo, loggerError, loggerWarn } from './src/utils/log4js.js'
 
-import compression from "compression"
+import compression from "express"
 app.use(compression())
 
 import cluster from 'cluster'
