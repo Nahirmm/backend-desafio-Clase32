@@ -54,19 +54,6 @@ app.use(passport.session())
 app.use('/ecommerce', routes)
 app.use('/api', randomRoutes)
 
-app.get('/', function(request, response) {
-    var result = 'App is running'
-    response.send(result);
-}).listen(app.get('port'), function() {
-    console.log('App is running, server is listening on port ', app.get('port'));
-});
-
-app.use(function(req,res,next){
-    if(!req.session){
-        return next(new Error('Oh no')) //handle error
-    }
-    next() //otherwise continue
-    });
 
 mongoose.connect(process.env.MONGODB)
 
@@ -84,13 +71,13 @@ if (modoServer == 'CLUSTER') {
         })
     } else {
         app
-        .listen(PORT, '0.0.0.0', () => loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`))
+        .listen(PORT, () => loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`))
         .on('error', err => loggerError.error(err))
         loggerInfo.info(`Worker ${process.pid} started`)
     }
 } else {
     app
-    .listen(PORT, '0.0.0.0', () => {
+    .listen(PORT, () => {
         loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`)
     })  
     .on('error', err => loggerError.error(err))
