@@ -2,6 +2,7 @@ import express from "express"
 import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
+import { Router } from 'express'
 
 import minimist from "minimist"
 
@@ -53,6 +54,11 @@ app.use(passport.session())
 app.use('/ecommerce', routes)
 app.use('/api', randomRoutes)
 
+const healthCheck = Router()
+healthCheck.get('', (req, res, next) => {
+    res.status(200).send('OK');
+})
+app.use('/', healthCheck)
 
 mongoose.connect(process.env.MONGODB)
 
