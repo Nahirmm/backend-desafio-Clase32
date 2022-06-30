@@ -61,6 +61,13 @@ app.get('/', function(request, response) {
     console.log('App is running, server is listening on port ', app.get('port'));
 });
 
+app.use(function(req,res,next){
+    if(!req.session){
+        return next(new Error('Oh no')) //handle error
+    }
+    next() //otherwise continue
+    });
+
 mongoose.connect(process.env.MONGODB)
 
 const modoServer = args.modo || 'Fork'
@@ -77,13 +84,13 @@ if (modoServer == 'CLUSTER') {
         })
     } else {
         app
-        .listen(PORT, () => loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`))
+        .listen(PORT, '0.0.0.0', () => loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`))
         .on('error', err => loggerError.error(err))
         loggerInfo.info(`Worker ${process.pid} started`)
     }
 } else {
     app
-    .listen(PORT, () => {
+    .listen(PORT, '0.0.0.0', () => {
         loggerInfo.info(`http://localhost:${PORT}/ecommerce/ o http://localhost:${PORT}/api/random/`)
     })  
     .on('error', err => loggerError.error(err))

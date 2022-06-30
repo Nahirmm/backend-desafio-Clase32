@@ -15,3 +15,20 @@
   address: '::',
   port: 8080
 }
+[2022-06-30T12:35:22.164] [ERROR] categError - Error: listen EADDRINUSE: address already in use :::8080
+    at Server.setupListenHandle [as _listen2] (node:net:1372:16)
+    at listenInCluster (node:net:1420:12)
+    at Server.listen (node:net:1508:7)
+    at Function.listen (C:\Users\nanu-\Documents\0CoderHouse\Backend\clase32\desafio\node_modules\express\lib\application.js:635:24)
+    at file:///C:/Users/nanu-/Documents/0CoderHouse/Backend/clase32/desafio/app.js:86:6
+    at ModuleJob.run (node:internal/modules/esm/module_job:198:25)
+    at async Promise.all (index 0)
+    at async ESMLoader.import (node:internal/modules/esm/loader:385:24)
+    at async loadESM (node:internal/process/esm_loader:88:5)
+    at async handleMainPromise (node:internal/modules/run_main:61:12) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 8080
+}
