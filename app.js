@@ -6,7 +6,7 @@ import mongoose from "mongoose"
 import minimist from "minimist"
 
 const args = minimist(process.argv.slice(2))
-const PORT = 8080 
+const PORT =  args.port || process.env.PORT || 8080
 
 const app = express()
 
@@ -53,7 +53,6 @@ app.use(passport.session())
 
 app.use('/ecommerce', routes)
 app.use('/api', randomRoutes)
-
 
 mongoose.connect(process.env.MONGODB)
 
