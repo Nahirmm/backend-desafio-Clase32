@@ -32,6 +32,7 @@ import randomRoutes from './src/routes/randomRoutes.js'
 
 app.set('view engine', 'ejs')
 app.set('views', './src/views')
+app.set('port', PORT)
 
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
@@ -54,11 +55,12 @@ app.use(passport.session())
 app.use('/ecommerce', routes)
 app.use('/api', randomRoutes)
 
-const healthCheck = Router()
-healthCheck.get('', (req, res, next) => {
-    res.status(200).send('OK');
-})
-app.use('/', healthCheck)
+app.get('/', function(request, response) {
+    var result = 'App is running'
+    response.send(result);
+}).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+});
 
 mongoose.connect(process.env.MONGODB)
 
